@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recipe Page</title>
+  <style>
+    /* Basic CSS styles */
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f9f9f9;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+    .container {
+      width: 80%;
+      max-width: 600px;
+      margin: 20px auto;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+    h2 {
+      text-align: center;
+      color: #333;
+    }
+    .recipe-list {
+      margin-top: 20px;
+    }
+    .recipe {
+      border-bottom: 1px solid #ddd;
+      padding: 10px 0;
+    }
+    .recipe:last-child {
+      border-bottom: none;
+    }
+    .buttons {
+      display: flex;
+      gap: 10px;
+    }
+    .buttons button {
+      padding: 5px 10px;
+      border: none;
+      cursor: pointer;
+      color: #fff;
+      border-radius: 5px;
+    }
+    .edit-btn { background-color: #28a745; }
+    .delete-btn { background-color: #dc3545; }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    label {
+      display: block;
+      font-weight: bold;
+      color: #555;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+    button[type="submit"] {
+      width: 100%;
+      padding: 10px;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h2>Recipe Manager</h2>
+  
+  <!-- Add/Edit Recipe Form -->
+  <div id="recipe-form-section">
+    <h3 id="form-title">Add New Recipe</h3>
+    <form id="recipe-form">
+      <input type="hidden" id="recipe-id" value="">
+      <div class="form-group">
+        <label for="recipe-name">Recipe Name</label>
+        <input type="text" id="recipe-name" required>
+      </div>
+      <div class="form-group">
+        <label for="ingredients">Ingredients</label>
+        <textarea id="ingredients" rows="3" required></textarea>
+      </div>
+      <div class="form-group">
+        <label for="instructions">Instructions</label>
+        <textarea id="instructions" rows="5" required></textarea>
+      </div>
+      <button type="submit">Save Recipe</button>
+    </form>
+  </div>
+
+  <!-- Recipe List Section -->
+  <div class="recipe-list" id="recipe-list">
+    <h3>Recipe List</h3>
+    <!-- Recipes will be added here dynamically -->
+  </div>
+</div>
+
+<script>
+  // JavaScript Code
+  let recipes = [];
+  let editingIndex = null;
+
+  // Function to render recipes
+  function renderRecipes() {
+    const recipeList = document.getElementById("recipe-list");
+    recipeList.innerHTML = "";
+    recipes.forEach((recipe, index) => {
+      const recipeDiv = document.createElement("div");
+      recipeDiv.classList.add("recipe");
+
+      recipeDiv.innerHTML = `
+        <h4>${recipe.name}</h4>
+        <p><strong>Ingredients:</strong> ${recipe.ingredients}</p>
+        <p><strong>Instructions:</strong> ${recipe.instructions}</p>
+        <div class="buttons">
+          <button class="edit-btn" onclick="editRecipe(${index})">Edit</button>
+          <button class="delete-btn" onclick="deleteRecipe(${index})">Delete</button>
+        </div>
+      `;
+      recipeList.appendChild(recipeDiv);
+    });
+  }
+
+  // Function to handle form submission
+  document.getElementById("recipe-form").addEventListener("submit", function(e) {
+    e.preventDefault();
+    const name = document.getElementById("recipe-name").value;
+    const ingredients = document.getElementById("ingredients").value;
+    const instructions = document.getElementById("instructions").value;
+
+    if (editingIndex !== null) {
+      // Update recipe
+      recipes[editingIndex] = { name, ingredients, instructions };
+      editingIndex = null;
+      document.getElementById("form-title").textContent = "Add New Recipe";
+    } else {
+      // Add new recipe
+      recipes.push({ name, ingredients, instructions });
+    }
+
+    // Clear form and re-render recipes
+    e.target.reset();
+    renderRecipes();
+  });
+
+  // Edit recipe function
+  function editRecipe(index) {
+    const recipe = recipes[index];
+    document.getElementById("recipe-name").value = recipe.name;
+    document.getElementById("ingredients").value = recipe.ingredients;
+    document.getElementById("instructions").value = recipe.instructions;
+    document.getElementById("form-title").textContent = "Edit Recipe";
+    editingIndex = index;
+  }
+
+  // Delete recipe function
+  function deleteRecipe(index) {
+    recipes.splice(index, 1);
+    renderRecipes();
+  }
+</script>
+
+</body>
+</html>

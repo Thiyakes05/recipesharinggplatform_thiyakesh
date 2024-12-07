@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Assistant</title>
+    <style>
+        /* Add some basic styles */
+        #result {
+            margin-top: 20px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            display: none; /* Hidden by default */
+        }
+    </style>
+</head>
+<body>
+    <h1>AI Recipe Assistant</h1>
+    <form id="ingredient-form">
+        <label for="ingredients">Enter your ingredients (comma-separated):</label>
+        <input type="text" id="ingredients" name="ingredients" required>
+        <button type="submit">Get Recipe</button>
+    </form>
+    
+    <div id="result">
+        <h2>Suggested Dish:</h2>
+        <div id="dish-name"></div>
+        <h3>Recipe:</h3>
+        <div id="recipe-steps"></div>
+    </div>
+
+    <script>
+        document.getElementById('ingredient-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const ingredients = document.getElementById('ingredients').value;
+
+            // Send ingredients to the backend
+            fetch('/recipe/get-recipe/', { // Adjust the path as necessary
+
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'  // Ensure you include CSRF token
+                },
+                body: JSON.stringify({ ingredients }) // Send ingredients directly
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok ' + response.statusText);
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Display results
+                if (data.dish) {
+                    document.getElementById('dish-name').innerText = data.dish;
+                    document.getElementById('recipe-steps').innerText = Array.isArray(data.recipe) ? data.recipe.join('\n') : data.recipe; // Check if recipe is an array
+                    document.getElementById('result').style.display = 'block';
+                } else {
+                    document.getElementById('dish-name').innerText = 'No dish found';
+                    document.getElementById('recipe-steps').innerText = data.error || 'An error occurred.'; // Provide a default message
+                    document.getElementById('result').style.display = 'block';
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('dish-name').innerText = 'An error occurred';
+                document.getElementById('recipe-steps').innerText = error.message || 'Something went wrong.';
+                document.getElementById('result').style.display = 'block';
+            });
+        });
+    </script>
+</body>
+</html>

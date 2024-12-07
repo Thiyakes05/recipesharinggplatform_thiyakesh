@@ -1,0 +1,29 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ recipe_name }}</title>
+</head>
+<body>
+    {% if recipe_name %}
+        <h1>{{ recipe_name }}</h1>
+        <h2>Ingredients:</h2>
+        <ul>
+            {% for ingredient in ingredients %}
+                <li>{{ ingredient.name }} - {{ ingredient.quantity }}</li>
+            {% endfor %}
+        </ul>
+
+        <h2>Instructions:</h2>
+        <ol>
+            {% for step in instructions %}
+                <li>{{ step }}</li>
+            {% endfor %}
+        </ol>
+    {% else %}
+        <p>{{ error }}</p>
+    {% endif %}
+</body>
+</html>

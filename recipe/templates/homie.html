@@ -1,0 +1,727 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe Sharing Platform</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600&family=Dancing+Script&display=swap');
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-image: url("{% static 'images/hback1.png' %}");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            height: 200vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            overflow-y: auto;
+            position: relative;
+            
+        }
+        .title {
+            font-family: 'Dancing Script', cursive;
+            font-size: 50px;
+            margin-bottom: 300px; /* Margin below the title */
+            margin-left: -720px; /* Adjusts the title position to the left */
+        }
+        .description {
+            font-family: 'Dollhouse', cursive; /* Updated to Dollhouse font */
+            font-size: 16px;
+            max-width: 600px;
+            text-align: left;
+            margin-left: -305px; /* Adjusts the description position further left */
+            margin-bottom: 40px; /* Space between description and search box */
+        }
+        .search-container {
+            margin-left: -600px; /* Further align the search box to the left */
+            margin-top: 250px; /* Increased space between description and search box */
+            
+        }
+        .search-box {
+            width: 350px; /* Width of the search box */
+            padding: 10px; /* Padding inside the search box */
+            font-size: 16px; /* Font size of the input text */
+            border: 2px solid #ccc; /* Border style */
+            border-radius: 10px; /* Rounded corners */
+           
+        }
+        .search-button {
+            padding: 10px 15px; /* Padding for the button */
+            font-size: 16px; /* Font size for the button */
+            margin-left: 5px; /* Space between input and button */
+            cursor: pointer; /* Pointer cursor on hover */
+            background-color: #FC8694; /* Button background color */
+            color: white; /* Button text color */
+            border: none; /* Remove border */
+            border-radius: 10px; /* Rounded corners for the button */
+        }
+        .search-button:hover {
+            background-color: green; /* Darker green on hover */
+        }
+        .logo {
+            position: absolute;
+            top: 100px;
+            left: -5px;
+            width: 120px;
+            height: auto;
+        }
+        /* Navigation Bar Style */
+        .nav-bar {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: 'Dancing Script', cursive;
+            font-weight: bold;
+            font-size: 26px;
+            color: white;
+            display: flex;
+            gap: 93px;
+        }
+
+        .nav-bar a {
+            text-decoration: none;
+            color: white;
+            transition: color 0.3s ease;
+        }
+
+        .nav-bar a:hover {
+            color: #FC8694; /* Light Pink */
+        }
+        .big-box {
+            width: 100%;
+            max-width: 1270px;
+            height: 1800px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        .top-half {
+            background-image: url("{% static 'images/btop1.jpg' %}");
+            background-size: 100% 100%;
+            background-position: center;
+            background-repeat: no-repeat;
+            height: 1500px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            padding: 20px;
+            
+        }
+        .bottom-half {
+            background-color: #d3d3d3;
+            flex: 1;
+            color: black;
+            padding: 60px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .column {
+            flex: 1;
+            margin: 0 15px;
+        }
+        .column h2 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 32px;
+            font-weight: bold;
+            text-align: center;
+            color: #333;
+        }
+        .box {
+            background-color: white;
+            margin: 40px 0;
+            padding: 0;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            height: 200px;
+            width: 70%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-left: auto;
+            margin-right: auto;
+            overflow: hidden;
+            position: relative;
+            max-width: 300px;
+        }
+        .appetizer-box img,
+        .appetizer-box2 img,
+        .appetizer-box3 img {
+            width: 100%;
+            height: 205px;
+            object-fit: cover;
+            border-radius: 10px;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .maincourse-box img,
+        .maincourse-box1 img,
+        .maincourse-box2 img {
+            width: 100%;
+            height: 205px;
+            object-fit: cover;
+            border-radius: 10px;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .desserts-box1 img,
+        .desserts-box2 img,
+        .desserts-box3 img {
+            width: 100%;
+            height: 205px;
+            object-fit: cover;
+            border-radius: 10px;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .aperitifs-box1 img,
+        .aperitifs-box2 img,
+        .aperitifs-box3 img {
+            width: 100%;
+            height: 205px;
+            object-fit: cover;
+            border-radius: 10px;
+            transition: opacity 0.5s ease-in-out;
+        }
+        .dot-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+        }
+        .dot {
+            height: 10px;
+            width: 10px;
+            margin: 0 5px;
+            border-radius: 50%;
+            background-color: #bbb;
+            cursor: pointer;
+        }
+        .dot.active {
+            background-color: #333;
+        }
+        .image-name {
+            background-color: #FC8694;
+            padding: 10px;
+            text-align: center;
+            border-radius: 5px;
+            font-family: 'Dancing Script', cursive;
+            font-size: 18px;
+            color: #333;
+            margin-top: 10px;
+            width: 180px;
+            margin-left: auto;
+            margin-right: auto;
+            font-weight: bold; /* Added font-weight to make the text bold */
+        }
+
+        .nav {
+            background-color: #333;
+            overflow: hidden;
+        }
+        .nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+        .nav ul li {
+            float: left;
+        }
+        .nav ul li a {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 20px;
+            text-decoration: none;
+        }
+        .nav ul li a:hover {
+            background-color: #575757;
+        }
+        /* Styling for the About Us popup box */
+        .about-popup {
+            display: none;
+            position: absolute;
+            top: 70px;
+            right: 250px;
+            background-color: white; /* Light pink background */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            padding: 10px;
+            width: 300px;
+            z-index: 1000;
+        }
+        .about-popup h2 {
+            margin: -5px;
+            padding-bottom: 10px;
+            border-bottom: 5px solid #c10a29 ;
+            background-color: white; /* White background for heading */
+            color: #333;
+            padding: 5px;
+            width:300px;
+            font-family: 'Dancing Script', cursive;
+            font-size: 30px;
+            color:#c10a29;
+            text-align:center;
+            
+          
+        }
+        .about-popup p {
+            margin: 10px ;
+            top: 20px;
+            font-family: 'Dollhouse', cursive;
+            color:#c10a29;
+        }
+        /* General page content */
+        .content {
+            padding: 0px;
+        }
+        body {
+            margin: 0;
+            padding: 0;
+            background-image: url("{% static 'images/hback1.png' %}");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            height: 200vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            overflow-y: auto;
+            position: relative;
+        }
+        
+        /* Other styles here */
+
+        /* Profile Popup */
+        .profile-popup {
+            display: none;
+            position: fixed;
+            top: 70px;
+            right: 50px;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            width: 300px;
+            z-index: 1000;
+        }
+
+        .profile-popup h2 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 24px;
+            color: #333;
+            text-align: center;
+        }
+
+        .profile-popup p {
+            font-family: 'Dollhouse', cursive;
+            font-size: 18px;
+            color: #333;
+            margin: 10px 0;
+        }
+
+        .profile-popup .logout-btn {
+            background-color: #FC8694;
+            color: white;
+            border: none;
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 10px;
+            text-align: center;
+            width: 100%;
+        }
+
+        .profile-popup .logout-btn:hover {
+            background-color: green;
+        }
+        
+    </style>
+</head>
+<body>
+
+    <div class="nav-bar">
+        <a href="{% url 'homie' %}">Home</a>
+        <a href="{% url 'ai' %}">AI-Assistant</a>
+        <a href="veg.html">Veg</a>
+        <a href="nveg.html">Non-veg</a>
+        <a href="{% url 'yours' %}" id="aboutUsBtn">its yours</a>
+    </div>
+    <!-- About Us Popup -->
+    <div class="about-popup" id="aboutUsPopup">
+        <h2>    About Us</h2>
+        <p>         </p>
+        <p>This platform is dedicated to sharing and discovering a wide variety of recipes. Whether you are a beginner or a professional chef, you can find and share your favorite dishes here!</p>
+        <p>Contact us at:</p>
+        <p><strong>Phone:</strong> 9994353589</p>
+        <p><strong>Email:</strong> recipehub@gmail.com</p>
+    </div>
+
+    
+
+    <img src="{% static 'images/recipehub.png' %}" alt="Logo" class="logo">
+
+    <div class="big-box">
+        <div class="top-half">
+            <div class="title">Exploring Recipes</div>
+            <div class="description">
+                Welcome to our recipe-sharing platform! Here, you can discover and share delicious recipes with a community of cooking enthusiasts. Whether you’re looking for traditional dishes, modern twists, or healthy options, we have something for everyone. Join us in celebrating the joy of cooking and sharing culinary delights!
+            </div>
+            <div class="search-container">
+                <form id="searchForm" onsubmit="return handleSearch(event);">
+                    <input type="text" class="search-box" id="searchInput" placeholder="Search for recipes..." required>
+                    <button type="submit" class="search-button">Search</button>
+                </form>
+            </div>
+        </div>
+        <div class="bottom-half">
+            <div class="column">
+                <h2>Appetizer</h2>
+                <div class="box appetizer-box">
+                    <a href="mozzarellasticks.html" id="appetizer-link">
+                        <img id="appetizer-img" src="{% static 'images/bruschetta1.jpg' %}" alt="Bruschetta">
+                    </a>
+                </div>
+                <div class="image-name" id="appetizer-name">Bruschetta</div>
+                <div class="dot-container" id="appetizer-dots">
+                    <div class="dot active" data-index="0"></div>
+                    <div class="dot" data-index="1"></div>
+                    <div class="dot" data-index="2"></div>
+                </div>
+
+                <div class="box appetizer-box2">
+                    <a href="ap4.html" id="appetizer2-link">
+                        <img id="appetizer2-img" src="{% static 'images/chickenwings.jpg' %}" alt="Chicken Wings">
+                    </a>
+                </div>
+                <div class="image-name" id="appetizer2-name">Chicken Wings</div>
+                <div class="dot-container" id="appetizer2-dots">
+                    <div class="dot active" data-index="0"></div>
+                    <div class="dot" data-index="1"></div>
+                    <div class="dot" data-index="2"></div>
+                </div>
+
+                <div class="box appetizer-box3">
+                    <a href="ap7.html" id="appetizer3-link">
+                        <img id="appetizer3-img" src="{% static 'images/panneertikka1.jpg' %}" alt="Panneer Tikka">
+                    </a>
+                </div>
+                <div class="image-name" id="appetizer3-name">Panneer Tikka</div>
+                <div class="dot-container" id="appetizer3-dots">
+                    <div class="dot active" data-index="0"></div>
+                    <div class="dot" data-index="1"></div>
+                    <div class="dot" data-index="2"></div>
+                </div>
+            </div>
+
+            <!-- Main Course Section -->
+            <div class="column">
+                <h2>Main Course</h2>
+
+                <!-- Main Course Box 1 -->
+                <div class="box maincourse-box">
+                    <a href="mc1.html" id="maincourse1-link">
+                        <img id="maincourse1-img" src="{% static 'images/mc1.jpg' %}" alt="Main Course 1">
+                    </a>
+                </div>
+                <div class="image-name" id="maincourse1-name">Butter Chicken
+                </div>
+                <div class="dot-container" id="maincourse1-dots">
+                    <div class="dot active" data-index="0"></div>
+                    <div class="dot" data-index="1"></div>
+                    <div class="dot" data-index="2"></div>
+                </div>
+
+                <!-- Main Course Box 2 -->
+                <div class="box maincourse-box1">
+                    <a href="mc4.html" id="maincourse2-link">
+                        <img id="maincourse2-img" src="{% static 'images/mc4.jpeg' %}" alt="Main Course 4">
+                    </a>
+                </div>
+                <div class="image-name" id="maincourse2-name">Sambar</div>
+                <div class="dot-container" id="maincourse2-dots">
+                    <div class="dot active" data-index="0"></div>
+                    <div class="dot" data-index="1"></div>
+                    <div class="dot" data-index="2"></div>
+                </div>
+
+                <!-- Main Course Box 3 -->
+                <div class="box maincourse-box2">
+                    <a href="mc7.html" id="maincourse3-link">
+                        <img id="maincourse3-img" src="{% static 'images/mc7.png' %}" alt="Main Course 7">
+                    </a>
+                </div>
+                <div class="image-name" id="maincourse3-name">Lasagna</div>
+                <div class="dot-container" id="maincourse3-dots">
+                    <div class="dot active" data-index="0"></div>
+                    <div class="dot" data-index="1"></div>
+                    <div class="dot" data-index="2"></div>
+                </div>
+            </div>
+
+            <div class="column">
+                <h2>Desserts</h2>
+                <div class="box desserts-box1">
+                    <a href="ds1.html" id="desserts1-link">
+                        <img id="desserts1-img" src="{% static 'images/ds1.jpeg' %}" alt="ds1">
+                    </a>
+                </div>
+                <div class="image-name" id="desserts1-name">Gulab Jamun
+                </div>
+                <div class="dot-container" id="desserts1-dots">
+                    <div class="dot active" data-index="0"></div>
+                    <div class="dot" data-index="1"></div>
+                    <div class="dot" data-index="2"></div>
+                </div>
+            
+                <div class="box desserts-box2">
+                    <a href="ds4.html" id="desserts2-link">
+                        <img id="desserts2-img" src="{% static 'images/ds4.jpg' %}" alt="ds4">
+                    </a>
+                </div>
+                <div class="image-name" id="desserts2-name">Cannoli
+                </div>
+                <div class="dot-container" id="desserts2-dots">
+                    <div class="dot active" data-index="0"></div>
+                    <div class="dot" data-index="1"></div>
+                    <div class="dot" data-index="2"></div>
+                </div>
+            
+                <div class="box desserts-box3">
+                    <a href="ds7.html" id="desserts3-link">
+                        <img id="desserts3-img" src="{% static 'images/ds7.jpg' %}" alt="ds7">
+                    </a>
+                </div>
+                <div class="image-name" id="desserts3-name">Chocolate brownie
+                </div>
+                <div class="dot-container" id="desserts3-dots">
+                    <div class="dot active" data-index="0"></div>
+                    <div class="dot" data-index="1"></div>
+                    <div class="dot" data-index="2"></div>
+                </div>
+            </div>
+            
+            <div class="column">
+                <h2>Aperitifs</h2>
+                <div class="box aperitifs-box1">
+                    <a href="apr1.html" id="aperitifs1-link">
+                        <img id="aperitifs1-img" src="{% static 'images/apr1.jpeg' %}" alt="apr1">
+                    </a>
+                </div>
+                <div class="image-name" id="aperitifs1-name">Aperol Spritz
+                </div>
+                <div class="dot-container" id="aperitifs1-dots">
+                    <div class="dot active" data-index="0"></div>
+                    <div class="dot" data-index="1"></div>
+                    <div class="dot" data-index="2"></div>
+                </div>
+            
+                <div class="box aperitifs-box2">
+                    <a href="apr4.html" id="aperitifs2-link">
+                        <img id="aperitifs2-img" src="{% static 'images/apr4.jpg' %}" alt="apr4">
+                    </a>
+                </div>
+                <div class="image-name" id="aperitifs2-name">Hugo Spritz</div>
+                <div class="dot-container" id="aperitifs2-dots">
+                    <div class="dot active" data-index="0"></div>
+                    <div class="dot" data-index="1"></div>
+                    <div class="dot" data-index="2"></div>
+                </div>
+            
+                <div class="box aperitifs-box3">
+                    <a href="apr7.html" id="aperitifs3-link">
+                        <img id="aperitifs3-img" src="{% static 'images/apr7.jpg' %}" alt="apr7">
+                    </a>
+                </div>
+                <div class="image-name" id="aperitifs3-name">Bellini </div>
+                <div class="dot-container" id="aperitifs3-dots">
+                    <div class="dot active" data-index="0"></div>
+                    <div class="dot" data-index="1"></div>
+                    <div class="dot" data-index="2"></div>
+                </div>
+            </div>
+    </div>
+
+    <script>
+        function setupRotatingImages(sectionId, imagePaths, names, links) {
+            const img = document.getElementById(sectionId + "-img");
+            const name = document.getElementById(sectionId + "-name");
+            const link = document.getElementById(sectionId + "-link");
+            const dots = document.getElementById(sectionId + "-dots").getElementsByClassName("dot");
+    
+            let currentIndex = 0;
+    
+            function showImage(index) {
+                img.src = imagePaths[index];
+                name.innerText = names[index];
+                link.href = links[index];
+                for (let i = 0; i < dots.length; i++) {
+                    dots[i].classList.remove("active");
+                }
+                dots[index].classList.add("active");
+            }
+    
+            for (let i = 0; i < dots.length; i++) {
+                dots[i].addEventListener("click", function () {
+                    currentIndex = parseInt(this.getAttribute("data-index"));
+                    showImage(currentIndex);
+                });
+            }
+    
+            setInterval(function () {
+                currentIndex = (currentIndex + 1) % imagePaths.length;
+                showImage(currentIndex);
+            }, 5000);
+        }
+    
+        // Appetizer Image Rotations
+        setupRotatingImages("appetizer", [
+            "{% static 'images/bruschetta.jpg' %}",
+            "{% static 'images/mozzarellasticks.jpg' %}",
+            "{% static 'images/springroll.jpg' %}"
+        ], ["Bruschetta", "Mozzarella Sticks", "Spring Rolls"], [
+            "{% url 'ap1' %}" , "{% url 'ap2' %}", "{% url 'ap3' %}"
+        ]);
+    
+        setupRotatingImages("appetizer2", [
+            "{% static 'images/chickenwings.jpg' %}",
+            "{% static 'images/loadednachos1.jpg' %}",
+            "{% static 'images/miniquiches.jpg' %}"
+        ], ["Chicken Wings", "Loaded Nachos", "Mini Quiches"], [
+            "{% url 'ap4' %}", "ap5.html", "ap6.html"
+        ]);
+    
+        setupRotatingImages("appetizer3", [
+            "{% static 'images/panneertikka1.jpg' %}",
+            "{% static 'images/Samosa.jpg' %}",
+            "{% static 'images/zucchinifritters1.jpg' %}"
+        ], ["Paneer Tikka", "Samosa", "Zucchini Fritters"], [
+            "{% url 'ap7' %}", "ap8.html", "ap9.html"
+        ]);
+    
+        // Main Course Images and Links
+        setupRotatingImages("maincourse1", [
+            "{% static 'images/mc1.jpg' %}",
+            "{% static 'images/mc2.jpg' %}",
+            "{% static 'images/mc3.jpg' %}"
+        ], ["Butter Chicken", "Paneer Butter Masala", "Chicken Biryani"], [
+            "mc1.html", "mc2.html", "mc3.html"
+        ]);
+    
+        setupRotatingImages("maincourse2", [
+            "{% static 'images/mc4.jpeg' %}",
+            "{% static 'images/mc5.jpg' %}",
+            "{% static 'images/mc6.jpg' %}"
+        ], ["Sambar", "Rasam", "Kothu Parotta"], [
+            "mc4.html", "mc5.html", "mc6.html"
+        ]);
+    
+        setupRotatingImages("maincourse3", [
+            "{% static 'images/mc7.png' %}",
+            "{% static 'images/mc8.jpg' %}",
+            "{% static 'images/mc9.jpg' %}"
+        ], ["Lasagna", "Chickpea and Spinach Stew", "Seafood Paella with Rice"], [
+            "mc7.html", "mc8.html", "mc9.html"
+        ]);
+    
+        // Desserts Images and Links
+        setupRotatingImages("desserts1", [
+            "{% static 'images/ds1.jpeg' %}",
+            "{% static 'images/ds2.jpg' %}",
+            "{% static 'images/ds3.jpg' %}"
+        ], ["Gulab Jamun", "Flan", "Churros"], [
+            "ds1.html", "ds2.html", "ds3.html"
+        ]);
+    
+        setupRotatingImages("desserts2", [
+            "{% static 'images/ds4.jpg' %}",
+            "{% static 'images/ds5.jpg' %}",
+            "{% static 'images/ds6.jpg' %}"
+        ], ["Cannoli", "Panna Cotta", "Chocolate Mousse"], [
+            "ds4.html", "ds5.html", "ds6.html"
+        ]);
+    
+        setupRotatingImages("desserts3", [
+            "{% static 'images/ds7.jpg' %}",
+            "{% static 'images/ds8.jpg' %}",
+            "{% static 'images/ds9.jpg' %}"
+        ], ["Chocolate brownie", "Tiramisu", "Rasmalai"], [
+            "ds7.html", "ds8.html", "ds9.html"
+        ]);
+
+        setupRotatingImages("aperitifs1", [
+            "{% static 'images/apr1.jpeg' %}",
+            "{% static 'images/apr2.jpg' %}",
+            "{% static 'images/apr3.jpg' %}"
+        ], ["Aperol Spritz", "Campari Soda", "Mimosa"], [
+            "apr1.html", "apr2.html", "apr3.html"
+        ]);
+    
+        setupRotatingImages("aperitifs2", [
+            "{% static 'images/apr4.jpg' %}",
+            "{% static 'images/apr5.jpg' %}",
+            "{% static 'images/apr6.jpg' %}"
+        ], ["Hugo Spritz", "Masala Chaas", "Pimm's Cup"], [
+            "apr4.html", "apr5.html", "apr6.html"
+        ]);
+    
+        setupRotatingImages("aperitifs3", [
+            "{% static 'images/apr7.jpg' %}",
+            "{% static 'images/apr8.jpg' %}",
+            "{% static 'images/apr9.jpg' %}"
+        ], ["Bellini", "French 75", "Jaljeera"], [
+            "apr7.html", "apr8.html", "apr9.html"
+        ]);
+    </script>
+    <script>
+        // JavaScript to handle the About Us popup
+        document.getElementById('aboutUsBtn').addEventListener('click', function () {
+            var popup = document.getElementById('aboutUsPopup');
+            if (popup.style.display === "block") {
+                popup.style.display = "none";
+            } else {
+                popup.style.display = "block";
+            }
+        });
+    </script>
+    <script>
+        function handleSearch(event) {
+            event.preventDefault(); // Prevent the default form submission
+            
+            const searchQuery = document.getElementById('searchInput').value.trim().toLowerCase();
+            
+            // Map of dish names to their respective pages
+            const recipes = {
+                "bruschetta": "{% url 'ap1' %}" ,
+                "mozzarella sticks": "{% url 'ap2' %}",
+                "spring rolls": "{% url 'ap3' %}",
+                "chicken wings": "{% url 'ap4' %}",
+                "paneer tikka": "{% url 'ap7' %}",
+                "butter chicken": "mc1.html",
+                "sambar": "mc4.html",
+                "lasagna": "mc7.html",
+                "gulab jamun": "ds1.html",
+                "cannoli": "ds4.html",
+                "chocolate brownie": "ds7.html",
+                "aperol spritz": "apr1.html",
+                "hugo spritz": "apr4.html",
+                "bellini": "apr7.html"
+                // Add more recipes as needed
+            };
+            
+            const targetPage = recipes[searchQuery];
+    
+            if (targetPage) {
+                window.location.href = targetPage; // Redirect to the respective page
+            } else {
+                alert("Recipe not found. Please try another name."); // Alert if recipe not found
+            }
+        }
+    </script>
+    
+</html>
